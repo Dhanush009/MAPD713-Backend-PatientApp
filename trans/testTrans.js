@@ -50,6 +50,25 @@ const viewTestRecord = async (req,res) => {
 
 }
 
+const viewOneTestRecord = async (req,res) => {
+    const id = req.params.id;
+    const result = await TestRecord.find({patientId:id})
+
+    try {
+        res.status(200).json({
+        success:true,
+        data:result[result.length-1]
+    })
+    } catch (error) {
+        console.log('Test Record find error',error.message)
+        res.status(500).json({
+            success: false,
+            error: error.message
+        })
+    }
+
+}
+
 const updateTestRecord = async (req,res) => {
     const { bloodPressure,respiratoryRate,oxygenLevel,heartbeat  } = req.body; 
 
@@ -82,4 +101,4 @@ const updateTestRecord = async (req,res) => {
     }
 }
 
-module.exports = {newTestRecord, viewTestRecord, updateTestRecord};
+module.exports = {newTestRecord, viewTestRecord, updateTestRecord, viewOneTestRecord};
